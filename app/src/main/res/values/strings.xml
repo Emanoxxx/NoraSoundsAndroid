@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Nora Sounds</string>
+    <string name="login">Iniciar sesion</string>
+    <string name="tab_2">Archivos</string>
+    <string name="tab_1">Comandos</string>
+    <string name="action_trash">Borrar</string>
+    <string name="action_cerrar">Cerrar sesion</string>
+    <string name="action_solicitudes">Revisar solicitudes</string>
+</resources>
