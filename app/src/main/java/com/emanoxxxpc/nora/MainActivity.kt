@@ -3,6 +3,7 @@ package com.emanoxxxpc.nora
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toolbar
 
 class MainActivity : AppCompatActivity() {
@@ -10,7 +11,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
-        val intent = Intent(this, CategoriaSonido::class.java)
-        startActivity(intent);
+        var button:Button=findViewById(R.id.button);
+        button.setOnClickListener{
+            val intent = Intent(this, CategoriaSonido::class.java)
+            startActivity(intent);
+        }
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
+
     }
 }

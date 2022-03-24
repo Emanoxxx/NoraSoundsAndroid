@@ -10,9 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Nora">
         <activity
-            android:name=".CategoriaSonido"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -20,6 +17,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.emanoxxxpc.nora.CategoriaSonido"
+            android:label="@string/title_activity_CategoriaSonido"
+            android:parentActivityName="com.emanoxxxpc.nora.MainActivity" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.emanoxxxpc.nora.MainActivity" />
         </activity>
     </application>
 

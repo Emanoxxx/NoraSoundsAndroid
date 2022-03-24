@@ -29,5 +29,7 @@
         <item name="android:shadowColor">@color/md_theme_light_shadow</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_primaryInverse</item>
         <item name="colorAccent">@color/titulo</item>
+        <item name="android:textColorPrimary">@color/titulo</item>
+        <item name="buttonCompat">@color/md_theme_light_error</item>
     </style>
 </resources>

@@ -28,5 +28,5 @@
     <color name="md_theme_light_inversePrimary">#ACC7FF</color>
     <color name="md_theme_light_shadow">#000000</color>
     <color name="md_theme_light_primaryInverse">#ACC7FF</color>
-    <color name="titulo">#000000</color>
+    <color name="titulo">#4E4E53</color>
 </resources>
