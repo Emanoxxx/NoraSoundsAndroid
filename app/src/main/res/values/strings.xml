@@ -17,5 +17,8 @@
     <string name="cancel">Cancelar</string>
     <string name="supporting_text">texto</string>
 
+    <string name="volver_Login">Ya tengo cuenta</string>
+    <string name="registro_title">Registrar usuario</string>
+
 
 </resources>

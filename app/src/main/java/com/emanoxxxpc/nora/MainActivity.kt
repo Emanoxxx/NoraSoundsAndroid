@@ -2,24 +2,15 @@ package com.emanoxxxpc.nora
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request
-import com.android.volley.Request.Method.POST
 import com.android.volley.Response
-import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.json.JSONException
 import org.json.JSONObject
-import java.lang.reflect.Method
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         }
         var registro:Button=findViewById(R.id.registro);
         registro.setOnClickListener{
-            val intent = Intent(this, Catalogo_Categorias::class.java)
+            val intent = Intent(this, Registro_Usuario::class.java)
             startActivity(intent);
         }
         supportActionBar!!.setDisplayShowTitleEnabled(false)
@@ -59,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                 val params: MutableMap<String, String> = HashMap()
                 //Change with your post params
                 params["usr"] = findViewById<EditText>(R.id.userLogin).getText().toString()
-                params["psw"] = findViewById<EditText>(R.id.passwordLogin).getText().toString()
+                params["psw"] = findViewById<EditText>(R.id.pass_res).getText().toString()
                 return params
             }
         }
