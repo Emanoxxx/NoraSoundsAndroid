@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     }
     fun login(){
-        val url = "http://emanoxxx.com:8080/login"
+        val url = "http://192.168.100.4:8080/login"
         val stringRequest: StringRequest = object : StringRequest( Method.POST, url,
             Response.Listener { response ->
                 Toast.makeText(this, response, Toast.LENGTH_LONG).show()
@@ -58,8 +58,8 @@ class MainActivity : AppCompatActivity() {
             override fun getParams(): Map<String, String> {
                 val params: MutableMap<String, String> = HashMap()
                 //Change with your post params
-                params["usr"] = findViewById<EditText>(R.id.userLogin).toString()
-                params["psw"] = findViewById<EditText>(R.id.passwordLogin).toString()
+                params["usr"] = findViewById<EditText>(R.id.userLogin).getText().toString()
+                params["psw"] = findViewById<EditText>(R.id.passwordLogin).getText().toString()
                 return params
             }
         }
