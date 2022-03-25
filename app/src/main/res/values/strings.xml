@@ -5,8 +5,17 @@
     <string name="tab_2">Archivos</string>
     <string name="tab_1">Comandos</string>
     <string name="action_trash">Borrar</string>
+    <string name="action_search">Buscar</string>
     <string name="action_cerrar">Cerrar sesion</string>
     <string name="action_solicitudes">Revisar solicitudes</string>
     <string name="title_activity_CategoriaSonido">Disparo</string>
     <string name="title_main">Iniciar sesion</string>
+
+    <string name="accept">Aceptar</string>
+    <string name="Iniciando">Login</string>
+    <string name="decline">Declinar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="supporting_text">texto</string>
+
+
 </resources>
