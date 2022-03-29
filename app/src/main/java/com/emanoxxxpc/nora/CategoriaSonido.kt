@@ -1,6 +1,9 @@
 package com.emanoxxxpc.nora
 
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.drawable.Icon
 import android.os.Bundle
 import android.view.Menu
@@ -15,11 +18,12 @@ class CategoriaSonido : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         // Get a support ActionBar corresponding to this toolbar and enable the Up button
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
 
+    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.categoriasonidomenu, menu)
         return true
     }
+
 }

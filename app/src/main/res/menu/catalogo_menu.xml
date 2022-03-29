@@ -9,6 +9,9 @@
         android:iconTint="@color/titulo"
         app:showAsAction="ifRoom" />
 
-    <item android:title="@string/action_solicitudes" />
-    <item android:title="@string/action_cerrar" />
+    <item android:title="@string/action_solicitudes"
+        android:id="@+id/buttonSolicitudes"/>
+    <item
+        android:id="@+id/buttonCerrarSesion"
+        android:title="@string/action_cerrar" />
 </menu>

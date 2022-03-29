@@ -1,6 +1,9 @@
 package com.emanoxxxpc.nora
 
+import NoraAPI
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -11,8 +14,12 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONException
 import org.json.JSONObject
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,22 +36,40 @@ class MainActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
     }
+    override fun onStart() {
+        super.onStart();
+        val prefe = getSharedPreferences("datos", MODE_PRIVATE)
+        val usuario=prefe.getString("User",null)
+        if(usuario!=null){
+            val intent = Intent(this, Catalogo_Categorias::class.java)
+            startActivity(intent);
+        }
+    }
     fun login(){
         val url = "http://192.168.100.4:8080/login"
         val stringRequest: StringRequest = object : StringRequest( Method.POST, url,
             Response.Listener { response ->
-                Toast.makeText(this, response, Toast.LENGTH_LONG).show()
                 try {
                     val jsonObject = JSONObject(response)
-                    //Parse your api responce here
-                    /*val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)*/
+                    if (jsonObject.getString("Resultado")=="Succes"){
+                        if (jsonObject.getInt("isActive")==1){
+                            Toast.makeText(this, "Hola "+jsonObject.getString("nombre")+"!!!", Toast.LENGTH_LONG).show()
+                            saveSession(jsonObject.getString("token"),jsonObject.getString("username"),(jsonObject.getInt("isAdmin")==1))
+                            val intent = Intent(this, Catalogo_Categorias::class.java)
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(this, "Hola "+jsonObject.getString("nombre")+" tu cuenta no ha sido activada.", Toast.LENGTH_LONG).show()
+                        }
+
+                    }else{
+                        //Mensajes de error
+                    }
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
             },
             Response.ErrorListener { error ->
-                Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show()
+                //Mensajes
             }) {
             override fun getParams(): Map<String, String> {
                 val params: MutableMap<String, String> = HashMap()
@@ -56,5 +81,24 @@ class MainActivity : AppCompatActivity() {
         }
         val requestQueue = Volley.newRequestQueue(this)
         requestQueue.add(stringRequest)
+    }
+    fun loginRetrofit(){
+        val retrofit=getRetrofit();
+        val service =retrofit.create<NoraAPI>(NoraAPI::class.java)
+    }
+    private fun getRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("http://192.168.100.4:8080/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+    }
+    fun saveSession(token:String,usuario:String,isAdmin:Boolean) {
+        val preferencias = getSharedPreferences("datos", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = preferencias.edit()
+        editor.putString("User", usuario)
+        editor.putString("Token", token)
+        editor.putBoolean("IsAdmin", isAdmin)
+        editor.commit()
+        finish()
     }
 }
