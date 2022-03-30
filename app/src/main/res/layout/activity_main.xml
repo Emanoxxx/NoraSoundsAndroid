@@ -40,7 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pass_res" />
+        app:layout_constraintTop_toBottomOf="@+id/pass_Login" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -63,7 +63,7 @@
         app:layout_constraintGuide_begin="205dp" />
 
     <EditText
-        android:id="@+id/pass_res"
+        android:id="@+id/pass_Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="26dp"
@@ -84,7 +84,7 @@
         android:background="@drawable/edit_text_login"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Name"
+        android:hint="Usuario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

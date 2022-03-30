@@ -19,8 +19,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : AppCompatActivity() {
-
+    lateinit var domain:String
     override fun onCreate(savedInstanceState: Bundle?) {
+        domain=getString(R.string.url);
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
@@ -46,12 +47,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
     fun login(){
-        val url = "http://192.168.100.4:8080/login"
+        val url = domain+"/login"
+        var usuario:EditText=findViewById(R.id.userLogin)
+        var pass:EditText=findViewById(R.id.pass_Login)
         val stringRequest: StringRequest = object : StringRequest( Method.POST, url,
             Response.Listener { response ->
                 try {
                     val jsonObject = JSONObject(response)
-                    if (jsonObject.getString("Resultado")=="Succes"){
+                    if (jsonObject.getString("Resultado")=="Success"){
                         if (jsonObject.getInt("isActive")==1){
                             Toast.makeText(this, "Hola "+jsonObject.getString("nombre")+"!!!", Toast.LENGTH_LONG).show()
                             saveSession(jsonObject.getString("token"),jsonObject.getString("username"),(jsonObject.getInt("isAdmin")==1))
@@ -59,10 +62,12 @@ class MainActivity : AppCompatActivity() {
                             startActivity(intent);
                         }else{
                             Toast.makeText(this, "Hola "+jsonObject.getString("nombre")+" tu cuenta no ha sido activada.", Toast.LENGTH_LONG).show()
+                            usuario.setError("Usuario no activo");
                         }
 
                     }else{
-                        //Mensajes de error
+                        usuario.setError("Revisa los datos");
+                        pass.setError("Revisa los datos");
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -74,8 +79,8 @@ class MainActivity : AppCompatActivity() {
             override fun getParams(): Map<String, String> {
                 val params: MutableMap<String, String> = HashMap()
                 //Change with your post params
-                params["usr"] = findViewById<EditText>(R.id.userLogin).getText().toString()
-                params["psw"] = findViewById<EditText>(R.id.pass_res).getText().toString()
+                params["usr"] = usuario.getText().toString()
+                params["psw"] = pass.getText().toString()
                 return params
             }
         }
@@ -88,7 +93,7 @@ class MainActivity : AppCompatActivity() {
     }
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.100.4:8080/")
+            .baseUrl(domain)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
     }
