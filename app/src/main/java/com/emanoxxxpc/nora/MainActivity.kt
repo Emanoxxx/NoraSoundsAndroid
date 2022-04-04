@@ -19,55 +19,94 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var domain:String
+    private lateinit var domain: String
     override fun onCreate(savedInstanceState: Bundle?) {
-        domain=getString(R.string.url);
+        domain = getString(R.string.url)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
-        var button:Button=findViewById(R.id.button);
-        button.setOnClickListener{
+        val button: Button = findViewById(R.id.button)
+        button.setOnClickListener {
             login()
         }
-        var registro:Button=findViewById(R.id.registro);
-        registro.setOnClickListener{
+        val registro: Button = findViewById(R.id.registro);
+        registro.setOnClickListener {
             val intent = Intent(this, Registro_Usuario::class.java)
             startActivity(intent);
         }
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
     }
+
     override fun onStart() {
         super.onStart();
-        val prefe = getSharedPreferences("datos", MODE_PRIVATE)
-        val usuario=prefe.getString("User",null)
-        if(usuario!=null){
+        val preferencias = getSharedPreferences("datos", MODE_PRIVATE)
+        val usuario = preferencias.getString("User", null)
+        if (usuario != null) {
             val intent = Intent(this, Catalogo_Categorias::class.java)
-            startActivity(intent);
+            startActivity(intent)
         }
     }
-    fun login(){
-        val url = domain+"/login"
-        var usuario:EditText=findViewById(R.id.userLogin)
-        var pass:EditText=findViewById(R.id.pass_Login)
-        val stringRequest: StringRequest = object : StringRequest( Method.POST, url,
+
+    fun login() {
+        val url = domain + "/login"
+        val etUsername: EditText = findViewById(R.id.userLogin)
+        val etPassword: EditText = findViewById(R.id.pass_Login)
+
+        val username = etUsername.text.toString()
+        val password = etPassword.text.toString()
+
+        etUsername.error = null
+        etPassword.error = null
+
+        if (username == "") {
+            etUsername.error = "Ingresa tu usuario."
+            return
+        }
+
+        if (password == "") {
+            etPassword.error = "Ingresa tu contraseña."
+            return
+        }
+        val peticion: StringRequest = object : StringRequest(Method.POST, url,
             Response.Listener { response ->
                 try {
-                    val jsonObject = JSONObject(response)
-                    if (jsonObject.getString("Resultado")=="Success"){
-                        if (jsonObject.getInt("isActive")==1){
-                            Toast.makeText(this, "Hola "+jsonObject.getString("nombre")+"!!!", Toast.LENGTH_LONG).show()
-                            saveSession(jsonObject.getString("token"),jsonObject.getString("username"),(jsonObject.getInt("isAdmin")==1))
+                    val respuesta = JSONObject(response)
+
+                    val resultado = respuesta.getString("Resultado")
+
+                    if (respuesta.getString("Resultado") == "Success") {
+
+                        val isActive = respuesta.getInt("isActive")
+                        val nombre = respuesta.getString("nombre")
+
+                        if (isActive == 1) {
+                            Toast.makeText(
+                                this,
+                                "Hola $nombre !!!",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            saveSession(
+                                respuesta.getString("token"),
+                                respuesta.getString("username"),
+                                (respuesta.getInt("isAdmin") == 1)
+                            )
                             val intent = Intent(this, Catalogo_Categorias::class.java)
                             startActivity(intent);
-                        }else{
-                            Toast.makeText(this, "Hola "+jsonObject.getString("nombre")+" tu cuenta no ha sido activada.", Toast.LENGTH_LONG).show()
-                            usuario.setError("Usuario no activo");
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Hola $nombre, tu cuenta aún no ha sido activada.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            etUsername.setError("Usuario no activo");
                         }
 
-                    }else{
-                        usuario.setError("Revisa los datos");
-                        pass.setError("Revisa los datos");
+                    } else {
+
+                        // TODO: Mostrar un dialog con el error
+                        etUsername.setError("Revisa los datos");
+                        etPassword.setError("Revisa los datos");
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -79,31 +118,34 @@ class MainActivity : AppCompatActivity() {
             override fun getParams(): Map<String, String> {
                 val params: MutableMap<String, String> = HashMap()
                 //Change with your post params
-                params["usr"] = usuario.getText().toString()
-                params["psw"] = pass.getText().toString()
+                params["usr"] = username
+                params["psw"] = password
                 return params
             }
         }
         val requestQueue = Volley.newRequestQueue(this)
-        requestQueue.add(stringRequest)
+        requestQueue.add(peticion)
     }
-    fun loginRetrofit(){
-        val retrofit=getRetrofit();
-        val service =retrofit.create<NoraAPI>(NoraAPI::class.java)
+
+    fun loginRetrofit() {
+        val retrofit = getRetrofit();
+        val service = retrofit.create<NoraAPI>(NoraAPI::class.java)
     }
+
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(domain)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
-    fun saveSession(token:String,usuario:String,isAdmin:Boolean) {
+
+    fun saveSession(token: String, usuario: String, isAdmin: Boolean) {
         val preferencias = getSharedPreferences("datos", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = preferencias.edit()
         editor.putString("User", usuario)
         editor.putString("Token", token)
         editor.putBoolean("IsAdmin", isAdmin)
-        editor.commit()
+        editor.apply()
         finish()
     }
 }
