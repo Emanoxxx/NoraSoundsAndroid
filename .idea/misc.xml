@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.196" />
+        <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/drawable/edit_card.xml" value="0.2705" />
         <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/drawable/edit_text_login.xml" value="0.196" />
         <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/drawable/edit_text_res.xml" value="0.296" />
         <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/drawable/ic_launcher_background.xml" value="0.196" />
@@ -12,6 +13,9 @@
         <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/layout/activity_categoria_sonido.xml" value="0.2443820224719101" />
         <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/layout/activity_registro_usuario.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/layout/card_categoria_sonido.xml" value="0.33" />
+        <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/layout/recycler_view_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/layout/search.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/menu/catalogo_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/menu/categoriasonidomenu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/menu/home_menu.xml" value="0.18802083333333333" />

@@ -127,18 +127,6 @@ class MainActivity : AppCompatActivity() {
         requestQueue.add(peticion)
     }
 
-    fun loginRetrofit() {
-        val retrofit = getRetrofit();
-        val service = retrofit.create<NoraAPI>(NoraAPI::class.java)
-    }
-
-    private fun getRetrofit(): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(domain)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
-
     fun saveSession(token: String, usuario: String, isAdmin: Boolean) {
         val preferencias = getSharedPreferences("datos", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = preferencias.edit()

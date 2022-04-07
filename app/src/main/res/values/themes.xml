@@ -30,7 +30,7 @@
         <item name="colorPrimaryInverse">@color/md_theme_light_primaryInverse</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:textColorPrimary">@color/titulo</item>
-        <item name="colorPrimaryDark">@color/md_theme_light_primaryContainer</item>
+        <item name="colorPrimaryDark">@color/md_theme_light_surface_2</item>
         <item name="buttonCompat">@color/md_theme_light_error</item>
     </style>
 </resources>

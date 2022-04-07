@@ -8,7 +8,7 @@
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/md_theme_light_primaryContainer"
+        android:background="@color/md_theme_light_surface_2"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:id="@+id/toolbar"
         android:elevation="4dp"
@@ -20,7 +20,7 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/md_theme_light_primaryContainer"
+        android:background="@color/md_theme_light_surface_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
