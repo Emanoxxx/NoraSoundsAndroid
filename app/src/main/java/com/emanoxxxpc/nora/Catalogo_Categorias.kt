@@ -121,7 +121,6 @@ class Catalogo_Categorias : AppCompatActivity() {
             Response.Listener { response ->
                 try {
                     val respuesta = JSONObject(response)
-                    val resultado = respuesta.getString("Resultado")
                     if (respuesta.getString("Resultado") == "Success") {
                         var searchList=respuesta.getJSONArray("Data")
                         var listaSonidos= mutableListOf<String>()
@@ -130,7 +129,7 @@ class Catalogo_Categorias : AppCompatActivity() {
                             listaSonidos.add(sonido.getString("nombre"))
                         }
                         nombresSonido=listaSonidos
-                        rv_sonidos.adapter=RV_Sonido_Adapter(nombresSonido)
+                        rv_sonidos.adapter=RV_Sonido_Adapter(nombresSonido,this)
                     } else {
 
                     }

@@ -8,7 +8,7 @@
     <string name="action_search">Buscar</string>
     <string name="action_cerrar">Cerrar sesion</string>
     <string name="action_solicitudes">Revisar solicitudes</string>
-    <string name="title_activity_CategoriaSonido">Disparo</string>
+    <string name="title_activity_CategoriaSonido">Categoria</string>
     <string name="title_main">Iniciar sesion</string>
 
     <string name="accept">Aceptar</string>

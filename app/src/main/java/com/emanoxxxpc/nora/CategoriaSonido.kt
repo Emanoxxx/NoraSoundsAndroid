@@ -9,13 +9,18 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 
 
 class CategoriaSonido : AppCompatActivity() {
+    lateinit var categoria:String;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categoria_sonido)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        var toolbar: Toolbar =findViewById(R.id.toolbar)
+        categoria = intent.getStringExtra("CategoriaSonido").toString()
+        toolbar.title=categoria
+        setSupportActionBar(toolbar)
         // Get a support ActionBar corresponding to this toolbar and enable the Up button
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
