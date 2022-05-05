@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emanoxxxpc.nora.api.NoraApiService
 import com.emanoxxxpc.nora.api.ResponseError
+import com.emanoxxxpc.nora.utils.Host
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,7 +26,7 @@ class Catalogo_Categorias : AppCompatActivity() {
     private lateinit var rv_sonidos: RecyclerView
     private lateinit var token: String;
     private lateinit var user: String;
-    private lateinit var domain: String
+    private lateinit var host: String
     private lateinit var authorization: String
     private lateinit var noraApi: NoraApiService
 
@@ -34,7 +35,6 @@ class Catalogo_Categorias : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_catalogo_categorias)
         setSupportActionBar(findViewById(R.id.toolbar))
-        domain = getString(R.string.url)
         rv_sonidos = findViewById(R.id.rv_sonidos)
         rv_sonidos.layoutManager = LinearLayoutManager(this)
         noraApi = NoraApiService.getApiSession()
@@ -42,6 +42,7 @@ class Catalogo_Categorias : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        host =Host.verifyHost(getSharedPreferences("host", MODE_PRIVATE),this)!!
         val prefe = getSharedPreferences("datos", MODE_PRIVATE)
         val usuario = prefe.getString("User", null)
         if (usuario == null) {
@@ -66,6 +67,10 @@ class Catalogo_Categorias : AppCompatActivity() {
             }
             R.id.buttonCerrarSesion -> {
                 closeSession()
+                true
+            }
+            R.id.buttonCambiarHost -> {
+                Host.changeHost(this)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -134,12 +139,9 @@ class Catalogo_Categorias : AppCompatActivity() {
                 return@launch
             }
             val categoriasDeSonido = respuesta.body()
-            var listaSonidos = mutableListOf<String>()
-            categoriasDeSonido!!.forEach {
-                listaSonidos.add(it.nombre)
-            }
+
             runOnUiThread {
-                rv_sonidos.adapter = RV_Sonido_Adapter(listaSonidos, this@Catalogo_Categorias)
+                rv_sonidos.adapter = RV_Sonido_Adapter(categoriasDeSonido!!, this@Catalogo_Categorias,host)
             }
 
         }

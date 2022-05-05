@@ -6,6 +6,7 @@
     <string name="tab_1">Comandos</string>
     <string name="action_trash">Borrar</string>
     <string name="action_search">Buscar</string>
+    <string name="action_host">Cambiar Host</string>
     <string name="action_cerrar">Cerrar sesion</string>
     <string name="action_solicitudes">Revisar solicitudes</string>
     <string name="title_activity_CategoriaSonido">Categoria</string>
@@ -16,10 +17,23 @@
     <string name="decline">Declinar</string>
     <string name="cancel">Cancelar</string>
     <string name="supporting_text">texto</string>
-    <string name="url">http://emanoxxx.com:8080</string>
+    <string name="url">alethetwin.online:8080</string>
 
     <string name="volver_Login">Ya tengo cuenta</string>
+    <string name="volver_Host">Regresar</string>
     <string name="registro_title">Registrar usuario</string>
+    <string name="set_host">Establecer Host</string>
 
     <string name="search_hint">Search</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_set_host">SetHost</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

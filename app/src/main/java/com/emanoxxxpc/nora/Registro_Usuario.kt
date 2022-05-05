@@ -8,11 +8,16 @@ import android.widget.Toast
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.emanoxxxpc.nora.utils.Host
 import org.json.JSONException
 import org.json.JSONObject
 
 class Registro_Usuario : AppCompatActivity() {
     lateinit var domain:String
+    override fun onStart() {
+        super.onStart()
+        Host.verifyHost(getSharedPreferences("host", MODE_PRIVATE),this)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         domain=getString(R.string.url);
         super.onCreate(savedInstanceState)
@@ -31,7 +36,7 @@ class Registro_Usuario : AppCompatActivity() {
         }
     }
     fun verify(){
-        var nombre:EditText=findViewById(R.id.nombre_Res)
+        var nombre:EditText=findViewById(R.id.nombre_Host)
         var usuario:EditText=findViewById(R.id.user_res)
         var correo:EditText=findViewById(R.id.correo_res)
         var pass1:EditText=findViewById(R.id.pass_Login)

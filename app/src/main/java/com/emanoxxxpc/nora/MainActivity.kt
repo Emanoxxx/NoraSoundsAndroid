@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.emanoxxxpc.nora.api.NoraApiService
 import com.emanoxxxpc.nora.api.ResponseError
 import com.emanoxxxpc.nora.models.Usuario
+import com.emanoxxxpc.nora.utils.Host
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        Host.verifyHost(getSharedPreferences("host", MODE_PRIVATE),this)
         val preferencias = getSharedPreferences("datos", MODE_PRIVATE)
         val usuario = preferencias.getString("User", null)
         if (usuario != null) {

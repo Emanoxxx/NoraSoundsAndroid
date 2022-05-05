@@ -12,6 +12,8 @@
         android:title="Search" />
     <item android:title="@string/action_solicitudes"
         android:id="@+id/buttonSolicitudes"/>
+    <item android:title="@string/action_host"
+        android:id="@+id/buttonCambiarHost"/>
     <item
         android:id="@+id/buttonCerrarSesion"
         android:title="@string/action_cerrar" />

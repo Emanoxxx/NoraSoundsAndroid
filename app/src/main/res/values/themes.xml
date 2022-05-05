@@ -33,4 +33,13 @@
         <item name="colorPrimaryDark">@color/md_theme_light_surface_2</item>
         <item name="buttonCompat">@color/md_theme_light_error</item>
     </style>
+
+    <style name="Theme.Nora.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Nora.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Nora.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
