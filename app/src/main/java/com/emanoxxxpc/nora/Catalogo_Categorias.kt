@@ -39,7 +39,6 @@ class Catalogo_Categorias : AppCompatActivity() {
         rv_sonidos = findViewById(R.id.rv_sonidos)
         rv_sonidos.layoutManager = LinearLayoutManager(this)
         noraApi = NoraApi.getApiSession()
-        search("")
     }
 
     override fun onStart() {
@@ -55,6 +54,7 @@ class Catalogo_Categorias : AppCompatActivity() {
             token = prefe.getString("Token", null)!!
             user = usuario
             authorization = "Bearer $token"
+            search("")
         }
 
     }
