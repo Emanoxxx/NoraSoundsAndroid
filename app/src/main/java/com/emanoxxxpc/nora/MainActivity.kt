@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.emanoxxxpc.nora.api.NoraApi
 import com.emanoxxxpc.nora.api.NoraApiService
 import com.emanoxxxpc.nora.api.ResponseError
 import com.emanoxxxpc.nora.models.Usuario
@@ -18,27 +17,28 @@ import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var domain: String
     private lateinit var noraApi: NoraApiService
     private lateinit var etUsername: EditText
     private lateinit var etPassword: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        domain = getString(R.string.url)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
-        val button: Button = findViewById(R.id.button)
-        button.setOnClickListener {
+
+        val loginButton: Button = findViewById(R.id.button)
+        loginButton.setOnClickListener {
             login()
         }
-        val registro: Button = findViewById(R.id.registro)
-        registro.setOnClickListener {
+
+        val registroButton: Button = findViewById(R.id.registro)
+        registroButton.setOnClickListener {
             val intent = Intent(this, Registro_Usuario::class.java)
             startActivity(intent)
         }
+
         supportActionBar!!.setDisplayShowTitleEnabled(false)
-        noraApi = NoraApi.getApiSession()
+        noraApi = NoraApiService.getApiSession()
 
 
         etUsername = findViewById(R.id.userLogin)
@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(
                         this@MainActivity,
                         "Lo siento ${usuario.nombre}, su cuenta no se encuentra activa. :(",
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_LONG
                     ).show()
                     etUsername.error = "Cuenta inactiva"
                     return@runOnUiThread

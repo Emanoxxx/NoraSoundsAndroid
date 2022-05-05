@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.emanoxxxpc.nora.api.NoraApi
 import com.emanoxxxpc.nora.api.NoraApiService
 import com.emanoxxxpc.nora.api.ResponseError
 import kotlinx.coroutines.CoroutineScope
@@ -38,7 +37,7 @@ class Catalogo_Categorias : AppCompatActivity() {
         domain = getString(R.string.url)
         rv_sonidos = findViewById(R.id.rv_sonidos)
         rv_sonidos.layoutManager = LinearLayoutManager(this)
-        noraApi = NoraApi.getApiSession()
+        noraApi = NoraApiService.getApiSession()
     }
 
     override fun onStart() {
