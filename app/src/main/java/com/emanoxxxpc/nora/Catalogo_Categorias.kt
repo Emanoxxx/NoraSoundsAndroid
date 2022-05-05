@@ -1,8 +1,10 @@
 package com.emanoxxxpc.nora
 
 
+import android.app.Dialog
 import android.app.SearchManager
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -16,12 +18,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.emanoxxxpc.nora.api.NoraApiService
 import com.emanoxxxpc.nora.api.ResponseError
 import com.emanoxxxpc.nora.utils.Host
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class Catalogo_Categorias : AppCompatActivity() {
+class Catalogo_Categorias  : AppCompatActivity(), DialogInterface.OnDismissListener {
     private var nombresSonido = mutableListOf<String>()
     private lateinit var rv_sonidos: RecyclerView
     private lateinit var token: String;
@@ -29,6 +32,7 @@ class Catalogo_Categorias : AppCompatActivity() {
     private lateinit var host: String
     private lateinit var authorization: String
     private lateinit var noraApi: NoraApiService
+    private lateinit var fabAddCategoriaDeSonidoDialog: FloatingActionButton
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +41,12 @@ class Catalogo_Categorias : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         rv_sonidos = findViewById(R.id.rv_sonidos)
         rv_sonidos.layoutManager = LinearLayoutManager(this)
+        fabAddCategoriaDeSonidoDialog = findViewById(R.id.fab_add_categoria_de_sonido)
+
+        fabAddCategoriaDeSonidoDialog.setOnClickListener {
+            var addCategoriaDeSonidoDialog = AddCategoriaDeSonidoDialog.newInstance(host, authorization)
+            addCategoriaDeSonidoDialog.show(supportFragmentManager, AddCategoriaDeSonidoDialog.TAG)
+        }
     }
 
     override fun onStart() {
@@ -136,6 +146,7 @@ class Catalogo_Categorias : AppCompatActivity() {
                     )
                         .show()
                 }
+
                 return@launch
             }
             val categoriasDeSonido = respuesta.body()
@@ -145,5 +156,9 @@ class Catalogo_Categorias : AppCompatActivity() {
             }
 
         }
+    }
+
+    override fun onDismiss(p0: DialogInterface?) {
+        Toast.makeText(this, "Dismiss", Toast.LENGTH_SHORT).show()
     }
 }

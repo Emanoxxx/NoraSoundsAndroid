@@ -11,64 +11,71 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
-import org.json.JSONObject
 import androidx.recyclerview.widget.RecyclerView
 import com.emanoxxxpc.nora.models.CategoriaDeSonido
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class RV_Sonido_Adapter (private var sonidos:List<CategoriaDeSonido>, var activity: Activity, var host:String):
-    RecyclerView.Adapter<RV_Sonido_Adapter.ViewHolder>(){
-        inner class ViewHolder(itemView: View ,activity: Activity): RecyclerView.ViewHolder(itemView){
-            val itemNombre:TextView=itemView.findViewById(R.id.cv_nombre)
-            var itemCategoria:CategoriaDeSonido?=null
-            val playbutton:FloatingActionButton=itemView.findViewById(R.id.reproducir);
-            init {
-                itemView.setOnClickListener{v:View->
-                    val position: Int=adapterPosition
-                    val intent = Intent(activity, CategoriaSonido::class.java).apply {
-                        putExtra("CategoriaSonido", itemNombre.text)
-                    }
-                    startActivity(activity,intent, Bundle.EMPTY)
+class RV_Sonido_Adapter(
+    private var sonidos: List<CategoriaDeSonido>,
+    var activity: Activity,
+    var host: String
+) :
+    RecyclerView.Adapter<RV_Sonido_Adapter.ViewHolder>() {
+    inner class ViewHolder(itemView: View, activity: Activity) : RecyclerView.ViewHolder(itemView) {
+        val itemNombre: TextView = itemView.findViewById(R.id.cv_nombre)
+        var itemCategoria: CategoriaDeSonido? = null
+        val playbutton: FloatingActionButton = itemView.findViewById(R.id.reproducir);
+
+        init {
+            itemView.setOnClickListener { v: View ->
+                val position: Int = adapterPosition
+                val intent = Intent(activity, CategoriaSonido::class.java).apply {
+                    putExtra("CategoriaSonido", itemNombre.text)
+                }
+                startActivity(activity, intent, Bundle.EMPTY)
+            }
+
+
+            playbutton.setOnClickListener { v: View ->
+                if (itemCategoria!!.archivos!!.size == 0) {
+                    Toast.makeText(activity, "No encontre archivo a reproducir", Toast.LENGTH_SHORT)
+                        .show()
+                    return@setOnClickListener
                 }
 
-
-                playbutton.setOnClickListener{v:View->
-                    if (itemCategoria!!.archivos!!.size==0){
-                        Toast.makeText(activity, "No encontre archivo a reproducir", Toast.LENGTH_SHORT).show()
-                        return@setOnClickListener
-                    }
-
-                    var archivo= itemCategoria!!.archivos!![(0 until itemCategoria!!.archivos!!.size).random()]
-                    val url = "http://${host}/${itemCategoria!!.id}/${archivo}" // your URL here
-                    println(url)
-                    val mediaPlayer: MediaPlayer? = MediaPlayer().apply {
+                val archivo =
+                    itemCategoria!!.archivos!![(0 until itemCategoria!!.archivos!!.size).random()]
+                val url = "http://${host}/${itemCategoria!!.id}/${archivo}" // your URL here
+                println(url)
+                val mediaPlayer: MediaPlayer = MediaPlayer().apply {
+                    CoroutineScope(Dispatchers.IO).launch {
                         setAudioStreamType(AudioManager.STREAM_MUSIC)
                         setDataSource(url)
                         prepare() // might take long! (for buffering, etc)
                         start()
                     }
+
                 }
-
             }
-        }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int ): ViewHolder {
-        val v=LayoutInflater.from(parent.context).inflate(R.layout.card_categoria_sonido,parent,false)
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val v = LayoutInflater.from(parent.context)
+            .inflate(R.layout.card_categoria_sonido, parent, false)
         return ViewHolder(v, activity)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemNombre.text=sonidos[position].nombre
-        holder.itemCategoria=sonidos[position]
+        holder.itemNombre.text = sonidos[position].nombre
+        holder.itemCategoria = sonidos[position]
         if(sonidos[position].archivos != null) {
-            if (holder.itemCategoria!!.archivos!!.size==0){
-                holder.playbutton.isEnabled=false;
-            }
-
-        } else {
-            holder.playbutton.isEnabled=false;
+            holder.playbutton.isEnabled = !sonidos[position].archivos!!.isEmpty()
         }
-
     }
 
     override fun getItemCount(): Int {
