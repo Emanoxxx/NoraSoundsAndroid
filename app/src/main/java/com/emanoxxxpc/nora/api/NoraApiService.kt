@@ -16,9 +16,9 @@ interface NoraApiService {
 
 
     companion object {
-        fun getApiSession(): NoraApiService {
+        fun getApiSession(host: String): NoraApiService {
             return Retrofit.Builder()
-                .baseUrl("http://alethetwin.online:8080/")
+                .baseUrl("http://$host/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(NoraApiService::class.java)

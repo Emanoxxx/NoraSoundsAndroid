@@ -37,12 +37,12 @@ class Catalogo_Categorias : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         rv_sonidos = findViewById(R.id.rv_sonidos)
         rv_sonidos.layoutManager = LinearLayoutManager(this)
-        noraApi = NoraApiService.getApiSession()
     }
 
     override fun onStart() {
         super.onStart()
         host =Host.verifyHost(getSharedPreferences("host", MODE_PRIVATE),this)!!
+        noraApi = NoraApiService.getApiSession(host)
         val prefe = getSharedPreferences("datos", MODE_PRIVATE)
         val usuario = prefe.getString("User", null)
         if (usuario == null) {

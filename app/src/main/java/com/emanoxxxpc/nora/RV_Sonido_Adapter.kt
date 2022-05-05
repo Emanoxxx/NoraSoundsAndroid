@@ -60,9 +60,15 @@ class RV_Sonido_Adapter (private var sonidos:List<CategoriaDeSonido>, var activi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemNombre.text=sonidos[position].nombre
         holder.itemCategoria=sonidos[position]
-        if (holder.itemCategoria!!.archivos!!.size==0){
+        if(sonidos[position].archivos != null) {
+            if (holder.itemCategoria!!.archivos!!.size==0){
+                holder.playbutton.isEnabled=false;
+            }
+
+        } else {
             holder.playbutton.isEnabled=false;
         }
+
     }
 
     override fun getItemCount(): Int {

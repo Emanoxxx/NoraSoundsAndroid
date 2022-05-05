@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var noraApi: NoraApiService
     private lateinit var etUsername: EditText
     private lateinit var etPassword: EditText
+    private lateinit var host: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         supportActionBar!!.setDisplayShowTitleEnabled(false)
-        noraApi = NoraApiService.getApiSession()
 
 
         etUsername = findViewById(R.id.userLogin)
@@ -48,7 +48,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Host.verifyHost(getSharedPreferences("host", MODE_PRIVATE),this)
+        host = Host.verifyHost(getSharedPreferences("host", MODE_PRIVATE), this)!!
+        noraApi = NoraApiService.getApiSession(host)
         val preferencias = getSharedPreferences("datos", MODE_PRIVATE)
         val usuario = preferencias.getString("User", null)
         if (usuario != null) {
