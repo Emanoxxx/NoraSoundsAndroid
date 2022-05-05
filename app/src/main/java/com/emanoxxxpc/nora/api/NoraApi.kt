@@ -5,11 +5,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class NoraApi {
     companion object {
-        fun getApiSession(): Retrofit {
+        fun getApiSession(): NoraApiService {
             return Retrofit.Builder()
-                .baseUrl("http://Mac-mini-de-Ale.local/")
+                .baseUrl("http://10.0.2.2:8080/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
+                .create(NoraApiService::class.java)
         }
     }
 }

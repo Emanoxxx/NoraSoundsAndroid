@@ -1,6 +1,5 @@
 package com.emanoxxxpc.nora
 
-import NoraAPI
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -9,17 +8,21 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import org.json.JSONException
-import org.json.JSONObject
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.emanoxxxpc.nora.api.NoraApi
+import com.emanoxxxpc.nora.api.NoraApiService
+import com.emanoxxxpc.nora.api.ResponseError
+import com.emanoxxxpc.nora.models.Usuario
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var domain: String
+    private lateinit var noraApi: NoraApiService
+    private lateinit var etUsername: EditText
+    private lateinit var etPassword: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         domain = getString(R.string.url)
         super.onCreate(savedInstanceState)
@@ -29,17 +32,21 @@ class MainActivity : AppCompatActivity() {
         button.setOnClickListener {
             login()
         }
-        val registro: Button = findViewById(R.id.registro);
+        val registro: Button = findViewById(R.id.registro)
         registro.setOnClickListener {
             val intent = Intent(this, Registro_Usuario::class.java)
-            startActivity(intent);
+            startActivity(intent)
         }
         supportActionBar!!.setDisplayShowTitleEnabled(false)
+        noraApi = NoraApi.getApiSession()
 
+
+        etUsername = findViewById(R.id.userLogin)
+        etPassword = findViewById(R.id.pass_Login)
     }
 
     override fun onStart() {
-        super.onStart();
+        super.onStart()
         val preferencias = getSharedPreferences("datos", MODE_PRIVATE)
         val usuario = preferencias.getString("User", null)
         if (usuario != null) {
@@ -49,9 +56,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun login() {
-        val url = domain + "/login"
-        val etUsername: EditText = findViewById(R.id.userLogin)
-        val etPassword: EditText = findViewById(R.id.pass_Login)
 
         val username = etUsername.text.toString()
         val password = etPassword.text.toString()
@@ -68,63 +72,43 @@ class MainActivity : AppCompatActivity() {
             etPassword.error = "Ingresa tu contraseña."
             return
         }
-        val peticion: StringRequest = object : StringRequest(Method.POST, url,
-            Response.Listener { response ->
-                try {
-                    val respuesta = JSONObject(response)
 
-                    val resultado = respuesta.getString("Resultado")
+        val user = Usuario(username, password)
+        CoroutineScope(Dispatchers.IO).launch {
+            val respuesta = noraApi.login(user)
 
-                    if (respuesta.getString("Resultado") == "Success") {
-
-                        val isActive = respuesta.getInt("isActive")
-                        val nombre = respuesta.getString("nombre")
-
-                        if (isActive == 1) {
-                            Toast.makeText(
-                                this,
-                                "Hola $nombre !!!",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            saveSession(
-                                respuesta.getString("token"),
-                                respuesta.getString("username"),
-                                (respuesta.getInt("isAdmin") == 1)
-                            )
-                            val intent = Intent(this, Catalogo_Categorias::class.java)
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(
-                                this,
-                                "Hola $nombre, tu cuenta aún no ha sido activada.",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            etUsername.setError("Usuario no activo");
-                        }
-
-                    } else {
-
-                        // TODO: Mostrar un dialog con el error
-                        etUsername.setError("Revisa los datos");
-                        etPassword.setError("Revisa los datos");
-                    }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
+            if (!respuesta.isSuccessful) {
+                val responseError = ResponseError.parseResponseErrorBody(respuesta.errorBody()!!)
+                runOnUiThread {
+                    Toast.makeText(this@MainActivity, responseError.error, Toast.LENGTH_SHORT)
+                        .show()
                 }
-            },
-            Response.ErrorListener { error ->
-                //Mensajes
-            }) {
-            override fun getParams(): Map<String, String> {
-                val params: MutableMap<String, String> = HashMap()
-                //Change with your post params
-                params["usr"] = username
-                params["psw"] = password
-                return params
+                return@launch
             }
+
+            val usuario: Usuario? = respuesta.body()
+
+            runOnUiThread {
+                if (!usuario!!.isActive!!) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Lo siento ${usuario.nombre}, su cuenta no se encuentra activa. :(",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    etUsername.error = "Cuenta inactiva"
+                    return@runOnUiThread
+                }
+                Toast.makeText(
+                    this@MainActivity,
+                    "Bienvenide ${usuario.nombre}",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                saveSession(usuario.token!!, usuario.username, usuario.isAdmin!!)
+                startActivity(Intent(this@MainActivity, Catalogo_Categorias::class.java))
+            }
+
         }
-        val requestQueue = Volley.newRequestQueue(this)
-        requestQueue.add(peticion)
     }
 
     fun saveSession(token: String, usuario: String, isAdmin: Boolean) {
