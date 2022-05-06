@@ -25,7 +25,6 @@ import kotlinx.coroutines.launch
  * create an instance of this fragment.
  */
 class AddCategoriaDeSonidoDialog : DialogFragment() {
-    // TODO: Rename and change types of parameters
     private var token: String? = null
     private var host: String? = null
     private var etNombre: EditText? = null
@@ -107,7 +106,6 @@ class AddCategoriaDeSonidoDialog : DialogFragment() {
          * @param token Access token del servicio api.
          * @return A new instance of fragment EditReview.
          */
-        // TODO: Rename and change types and number of parameters
         fun newInstance(host: String?, token: String?): AddCategoriaDeSonidoDialog {
             val fragment = AddCategoriaDeSonidoDialog()
             val args = Bundle()

@@ -25,7 +25,9 @@
         <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/menu/home_menu.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/emano/Documents/Nora/app/src/main/res/menu/registrar_usuario_menu.xml" value="0.36666666666666664" />
         <entry key="app/src/main/res/layout/activity_catalogo_categorias.xml" value="0.21240942028985507" />
+        <entry key="app/src/main/res/layout/activity_registro_usuario.xml" value="0.1953125" />
         <entry key="app/src/main/res/layout/fragment_add_categoria_de_sonido.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_csfragment.xml" value="0.1585144927536232" />
       </map>
     </option>
   </component>

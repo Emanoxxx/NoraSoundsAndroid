@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
 
         etUsername = findViewById(R.id.userLogin)
-        etPassword = findViewById(R.id.pass_Login)
+        etPassword = findViewById(R.id.et_password)
     }
 
     override fun onStart() {

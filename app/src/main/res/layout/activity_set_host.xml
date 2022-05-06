@@ -43,7 +43,7 @@
         app:srcCompat="@drawable/logo" />
 
     <EditText
-        android:id="@+id/nombre_Host"
+        android:id="@+id/et_nombre"
         android:layout_width="335dp"
         android:layout_height="43dp"
         android:layout_marginTop="20dp"
@@ -67,7 +67,7 @@
         android:theme="@style/Widget.Material3.Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombre_Host" />
+        app:layout_constraintTop_toBottomOf="@+id/et_nombre" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
