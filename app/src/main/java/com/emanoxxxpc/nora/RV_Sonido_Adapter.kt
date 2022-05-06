@@ -15,6 +15,7 @@ import org.json.JSONObject
 import androidx.recyclerview.widget.RecyclerView
 import com.emanoxxxpc.nora.models.CategoriaDeSonido
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.json.JSONArray
 
 class RV_Sonido_Adapter (private var sonidos:List<CategoriaDeSonido>, var activity: Activity, var host:String):
     RecyclerView.Adapter<RV_Sonido_Adapter.ViewHolder>(){
@@ -26,7 +27,12 @@ class RV_Sonido_Adapter (private var sonidos:List<CategoriaDeSonido>, var activi
                 itemView.setOnClickListener{v:View->
                     val position: Int=adapterPosition
                     val intent = Intent(activity, CategoriaSonido::class.java).apply {
-                        putExtra("CategoriaSonido", itemNombre.text)
+                        putExtra("CategoriaSonido", "{" +
+                                "nombre:"+sonidos[position].nombre+"," +
+                                "id:"+sonidos[position].id+"," +
+                                "archivos:"+ JSONArray(sonidos[position].archivos).toString()+"," +
+                                "comandos:"+JSONArray(sonidos[position].comandos).toString() +
+                                "}")
                     }
                     startActivity(activity,intent, Bundle.EMPTY)
                 }

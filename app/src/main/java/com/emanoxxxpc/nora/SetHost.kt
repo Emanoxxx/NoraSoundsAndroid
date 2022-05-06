@@ -42,7 +42,7 @@ class SetHost : AppCompatActivity() {
         }
         findViewById<Button>(R.id.establecer_button).setOnClickListener{
             saveHost(findViewById<EditText>(R.id.nombre_Host).text.toString())
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, Catalogo_Categorias::class.java)
             startActivity(intent)
         }
         if (host != null) {
