@@ -1,11 +1,10 @@
 package com.emanoxxxpc.nora
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.google.gson.JsonObject
+import com.emanoxxxpc.nora.models.CategoriaDeSonido
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -23,22 +22,14 @@ class ViewPagerAdapter(fragment: FragmentActivity,categoria:JSONObject):Fragment
                 return fragment
             }
             1 -> {
-                val fragment=csfragment()
-                fragment.arguments= Bundle().apply{
-                    putInt(ARG_OBJECT,position+1)
-                }
+                val fragment=archivofragment(CategoriaDeSonido.fromJSON(categoria.toString()))
                 return fragment
             }
-            else->{
-                val fragment=csfragment()
-                fragment.arguments= Bundle().apply{
-                    putInt(ARG_OBJECT,position+1)
-                }
-                return fragment
+            else ->{
+                return Fragment()
             }
         }
 
 
     }
-
 }

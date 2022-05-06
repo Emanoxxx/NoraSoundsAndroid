@@ -19,6 +19,23 @@
       android:background="@drawable/edit_card">
 
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/borrar_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="14dp"
+        android:clickable="true"
+        android:scaleType="fitCenter"
+        android:scaleX=".7"
+        android:scaleY="0.7"
+        card_view:backgroundTint="@color/md_theme_light_error"
+        card_view:srcCompat="@drawable/ic_action_trash" />
+
     <TextView
         android:id="@+id/cv_nombre"
         android:layout_width="wrap_content"
@@ -34,6 +51,19 @@
         android:layout_marginBottom="26dp"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="14dp"
+        android:layout_toStartOf="@+id/borrar_button2"
+        android:clickable="true"
+        android:scaleX=".7"
+        android:scaleY=".7"
+        card_view:srcCompat="@android:drawable/ic_menu_edit" />
 
 
   </RelativeLayout>

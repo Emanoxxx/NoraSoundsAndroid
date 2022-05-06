@@ -28,7 +28,7 @@ class RV_Sonido_Adapter (private var sonidos:List<CategoriaDeSonido>, var activi
                     val position: Int=adapterPosition
                     val intent = Intent(activity, CategoriaSonido::class.java).apply {
                         putExtra("CategoriaSonido", "{" +
-                                "nombre:"+sonidos[position].nombre+"," +
+                                "nombre:'"+sonidos[position].nombre+"'," +
                                 "id:"+sonidos[position].id+"," +
                                 "archivos:"+ JSONArray(sonidos[position].archivos).toString()+"," +
                                 "comandos:"+JSONArray(sonidos[position].comandos).toString() +
@@ -62,17 +62,11 @@ class RV_Sonido_Adapter (private var sonidos:List<CategoriaDeSonido>, var activi
         val v=LayoutInflater.from(parent.context).inflate(R.layout.card_categoria_sonido,parent,false)
         return ViewHolder(v, activity)
     }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemNombre.text=sonidos[position].nombre
         holder.itemCategoria=sonidos[position]
         if(sonidos[position].archivos != null) {
-            if (holder.itemCategoria!!.archivos!!.size==0){
-                holder.playbutton.isEnabled=false;
-            }
-
-        } else {
-            holder.playbutton.isEnabled=false;
+            holder.playbutton.isEnabled = !sonidos[position].archivos!!.isEmpty()
         }
 
     }

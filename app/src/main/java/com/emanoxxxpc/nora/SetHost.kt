@@ -41,12 +41,12 @@ class SetHost : AppCompatActivity() {
             onBackPressed()
         }
         findViewById<Button>(R.id.establecer_button).setOnClickListener{
-            saveHost(findViewById<EditText>(R.id.nombre_Host).text.toString())
+            saveHost(findViewById<EditText>(R.id.et_host).text.toString())
             val intent = Intent(this, Catalogo_Categorias::class.java)
             startActivity(intent)
         }
         if (host != null) {
-            findViewById<EditText>(R.id.nombre_Host).setText(host)
+            findViewById<EditText>(R.id.et_host).setText(host)
         }else{
             findViewById<Button>(R.id.volver_Host).isVisible=false;
         }

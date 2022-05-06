@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?selectableItemBackground"
+    card_view:cardCornerRadius="30px"
+    card_view:cardUseCompatPadding="true"
+
+    >
+
+  <RelativeLayout
+      android:id="@+id/cv_archivos"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:elevation="4dp"
+      android:background="@drawable/edit_card">
+
+
+    <TextView
+        android:id="@+id/cv_nombre"
+        android:layout_width="249dp"
+        android:layout_height="36dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="135dp"
+        android:layout_marginBottom="26dp"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/borrar_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="14dp"
+        android:clickable="true"
+        android:scaleType="fitCenter"
+        android:scaleX=".7"
+        android:scaleY="0.7"
+        card_view:backgroundTint="@color/md_theme_light_error"
+        card_view:srcCompat="@drawable/ic_action_trash" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="14dp"
+        android:layout_toStartOf="@+id/borrar_button"
+        android:clickable="true"
+        android:scaleX=".7"
+        android:scaleY=".7"
+        card_view:srcCompat="@android:drawable/ic_media_play" />
+
+
+  </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

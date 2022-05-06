@@ -1,33 +1,32 @@
 package com.emanoxxxpc.nora
 
-import android.app.Activity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.emanoxxxpc.nora.models.CategoriaDeSonido
 import org.json.JSONArray
 
 
-class comandofragment(comandos:JSONArray) : Fragment() {
+class archivofragment(categoriaDeSonido: CategoriaDeSonido) : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: JSONArray = comandos
+    private var categoria: CategoriaDeSonido = categoriaDeSonido
 
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var recyclerView: RecyclerView
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_comandofragment, container, false)
-        recyclerView = rootView.findViewById(R.id.rv_comandos) as RecyclerView
+        val rootView = inflater.inflate(R.layout.fragment_archivofragment, container, false)
+        recyclerView = rootView.findViewById(R.id.rv_archivos) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = RV_Comandos_Adapter(param1);
+        recyclerView.adapter = RV_archivos_Adapter(categoria);
         return rootView
     }
 
@@ -35,6 +34,4 @@ class comandofragment(comandos:JSONArray) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
     }
-
-
 }
