@@ -8,7 +8,7 @@ import com.emanoxxxpc.nora.models.CategoriaDeSonido
 import org.json.JSONArray
 import org.json.JSONObject
 
-class ViewPagerAdapter(fragment: FragmentActivity,categoria:JSONObject):FragmentStateAdapter(fragment) {
+class ViewPagerAdapter(fragment: FragmentActivity,categoria:JSONObject, var host: String, var token: String):FragmentStateAdapter(fragment) {
     companion object{
         private const val ARG_OBJECT="object"
     }
@@ -22,7 +22,7 @@ class ViewPagerAdapter(fragment: FragmentActivity,categoria:JSONObject):Fragment
                 return fragment
             }
             1 -> {
-                val fragment=archivofragment(CategoriaDeSonido.fromJSON(categoria.toString()))
+                val fragment=archivofragment(CategoriaDeSonido.fromJSON(categoria.toString()), host ,token)
                 return fragment
             }
             else ->{

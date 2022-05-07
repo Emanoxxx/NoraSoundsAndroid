@@ -13,7 +13,7 @@ import com.emanoxxxpc.nora.models.CategoriaDeSonido
 import org.json.JSONArray
 
 
-class archivofragment(categoriaDeSonido: CategoriaDeSonido) : Fragment() {
+class archivofragment(categoriaDeSonido: CategoriaDeSonido, var host: String, var token: String) : Fragment() {
     // TODO: Rename and change types of parameters
     private var categoria: CategoriaDeSonido = categoriaDeSonido
 
@@ -26,7 +26,7 @@ class archivofragment(categoriaDeSonido: CategoriaDeSonido) : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_archivofragment, container, false)
         recyclerView = rootView.findViewById(R.id.rv_archivos) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = RV_archivos_Adapter(categoria);
+        recyclerView.adapter = RV_archivos_Adapter(categoria,host,token);
         return rootView
     }
 

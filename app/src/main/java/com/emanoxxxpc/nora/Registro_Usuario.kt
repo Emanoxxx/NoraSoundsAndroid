@@ -92,7 +92,6 @@ class Registro_Usuario : AppCompatActivity() {
         }
 
         val usuario: Usuario = Usuario(username, password, nombre, email)
-        println(usuario)
 
         CoroutineScope(Dispatchers.IO).launch {
             val respuesta = noraApi.registrarUsuario(usuario)

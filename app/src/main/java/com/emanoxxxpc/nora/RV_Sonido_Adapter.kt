@@ -39,19 +39,9 @@ class RV_Sonido_Adapter (private var sonidos:List<CategoriaDeSonido>, var activi
 
 
                 playbutton.setOnClickListener{v:View->
-                    if (itemCategoria!!.archivos!!.size==0){
+                    if (!CategoriaDeSonido.playSound(itemCategoria!!.archivos!!,itemCategoria!!.id!!,host)){
                         Toast.makeText(activity, "No encontre archivo a reproducir", Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
-                    }
-
-                    var archivo= itemCategoria!!.archivos!![(0 until itemCategoria!!.archivos!!.size).random()]
-                    val url = "http://${host}/${itemCategoria!!.id}/${archivo}" // your URL here
-                    println(url)
-                    val mediaPlayer: MediaPlayer? = MediaPlayer().apply {
-                        setAudioStreamType(AudioManager.STREAM_MUSIC)
-                        setDataSource(url)
-                        prepare() // might take long! (for buffering, etc)
-                        start()
                     }
                 }
 

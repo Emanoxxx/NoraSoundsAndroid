@@ -15,7 +15,6 @@ class RV_Comandos_Adapter (var comandos :JSONArray):
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int ): ViewHolder {
-        println("llegue");
         val v=LayoutInflater.from(parent.context)
             .inflate(R.layout.rv_comando_item,parent,false)
 

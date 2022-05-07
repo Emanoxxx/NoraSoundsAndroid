@@ -20,6 +20,8 @@ interface NoraApiService {
     @GET("CategoriasDeSonido/search/{query}")
     suspend fun search(@Header("Authorization") token: String, @Path("query") query: String): Response<MutableList<CategoriaDeSonido>>
 
+    @DELETE("CategoriasDeSonido/{id}/Archivo/{name}")
+    suspend fun deleteArchivo(@Header("Authorization")token: String, @Path("id") id: String, @Path("name") name: String): Response<CategoriaDeSonido>
 
     companion object {
         fun getApiSession(host: String): NoraApiService {
