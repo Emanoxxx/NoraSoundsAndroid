@@ -27,12 +27,7 @@ class RV_Sonido_Adapter (private var sonidos:List<CategoriaDeSonido>, var activi
                 itemView.setOnClickListener{v:View->
                     val position: Int=adapterPosition
                     val intent = Intent(activity, CategoriaSonido::class.java).apply {
-                        putExtra("CategoriaSonido", "{" +
-                                "nombre:'"+sonidos[position].nombre+"'," +
-                                "id:"+sonidos[position].id+"," +
-                                "archivos:"+ JSONArray(sonidos[position].archivos).toString()+"," +
-                                "comandos:"+JSONArray(sonidos[position].comandos).toString() +
-                                "}")
+                        putExtra("IDCategoria", sonidos[position].id)
                     }
                     startActivity(activity,intent, Bundle.EMPTY)
                 }
