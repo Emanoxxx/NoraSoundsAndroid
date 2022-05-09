@@ -13,12 +13,12 @@
         android:theme="@style/Theme.Nora"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".SetHost"
+            android:name=".SetHostActivity"
             android:exported="false"
             android:label="@string/title_activity_set_host"
             android:theme="@style/Theme.Nora.NoActionBar" />
         <activity
-            android:name=".Registro_Usuario"
+            android:name=".RegistroUsuario"
             android:parentActivityName=".MainActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
@@ -27,7 +27,7 @@
                 android:value="com.emanoxxxpc.nora.MainActivity" />
         </activity>
         <activity
-            android:name=".Catalogo_Categorias"
+            android:name=".CatalogoCategoriasActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CategoriaSonido"
+            android:name=".CategoriaDeSonidoActivity"
             android:label="@string/title_activity_CategoriaSonido"
             android:parentActivityName=".MainActivity">
 

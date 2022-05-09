@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         val registroButton: Button = findViewById(R.id.registro)
         registroButton.setOnClickListener {
-            val intent = Intent(this, Registro_Usuario::class.java)
+            val intent = Intent(this, RegistroUsuario::class.java)
             startActivity(intent)
         }
 
@@ -55,12 +55,12 @@ class MainActivity : AppCompatActivity() {
         val preferencias = getSharedPreferences("datos", MODE_PRIVATE)
         val usuario = preferencias.getString("User", null)
         if (usuario != null) {
-            val intent = Intent(this, Catalogo_Categorias::class.java)
+            val intent = Intent(this, CatalogoCategoriasActivity::class.java)
             startActivity(intent)
         }
     }
 
-    fun login() {
+    private fun login() {
 
         val username = etUsername.text.toString()
         val password = etPassword.text.toString()
@@ -110,13 +110,13 @@ class MainActivity : AppCompatActivity() {
                 ).show()
 
                 saveSession(usuario.token!!, usuario.username, usuario.isAdmin!!)
-                startActivity(Intent(this@MainActivity, Catalogo_Categorias::class.java))
+                startActivity(Intent(this@MainActivity, CatalogoCategoriasActivity::class.java))
             }
 
         }
     }
 
-    fun saveSession(token: String, usuario: String, isAdmin: Boolean) {
+    private fun saveSession(token: String, usuario: String, isAdmin: Boolean) {
         val preferencias = getSharedPreferences("datos", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = preferencias.edit()
         editor.putString("User", usuario)
@@ -125,6 +125,7 @@ class MainActivity : AppCompatActivity() {
         editor.apply()
         finish()
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {
@@ -135,6 +136,7 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true

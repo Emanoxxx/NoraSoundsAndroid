@@ -1,6 +1,5 @@
 package com.emanoxxxpc.nora
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,35 +18,38 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.json.JSONArray
 
-class RV_Comandos_Adapter(var categoria: CategoriaDeSonido, var activity: FragmentActivity?, var host: String,
-                          var token: String):
-    RecyclerView.Adapter<RV_Comandos_Adapter.ViewHolder>(){
+class RVComandosAdapter(
+    private var categoria: CategoriaDeSonido, private var activity: FragmentActivity?, var host: String,
+    var token: String
+) :
+    RecyclerView.Adapter<RVComandosAdapter.ViewHolder>() {
 
-    inner class ViewHolder(itemView: View ): RecyclerView.ViewHolder(itemView){
-        val itemNombre:TextView=itemView.findViewById(R.id.cv_nombre)
-        val deleteButton: FloatingActionButton =itemView.findViewById(R.id.borrar_button2);
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val itemNombre: TextView = itemView.findViewById(R.id.cv_nombre)
+        val deleteButton: FloatingActionButton = itemView.findViewById(R.id.borrar_button2)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int ): ViewHolder {
-        val v=LayoutInflater.from(parent.context)
-            .inflate(R.layout.rv_comando_item,parent,false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val v = LayoutInflater.from(parent.context)
+            .inflate(R.layout.rv_comando_item, parent, false)
 
         return ViewHolder(v)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemNombre.text=categoria.comandos!![position]
-        holder.deleteButton.setOnClickListener{v:View->
-            var aceptarDialog: AlertDialog = AlertDialog.Builder(activity!!).apply {
-                setPositiveButton(R.string.accept,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        deleteComando(categoria.comandos!![position])
-                    })
-                setNegativeButton(R.string.cancel,
-                    DialogInterface.OnClickListener { dialog, id ->
-                    })
+        holder.itemNombre.text = categoria.comandos!![position]
+        holder.deleteButton.setOnClickListener {
+            val aceptarDialog: AlertDialog = AlertDialog.Builder(activity!!).apply {
+                setPositiveButton(
+                    R.string.accept,
+                ) { _, _ ->
+                    deleteComando(categoria.comandos!![position])
+                }
+                setNegativeButton(
+                    R.string.cancel,
+                ) { _, _ ->
+                }
             }.create()
             aceptarDialog.setCancelable(true)
             aceptarDialog.setTitle("Borrar Archivo ")
@@ -60,9 +62,11 @@ class RV_Comandos_Adapter(var categoria: CategoriaDeSonido, var activity: Fragme
     override fun getItemCount(): Int {
         return categoria.comandos!!.size
     }
-    fun deleteComando(comando: String){
+
+    private fun deleteComando(comando: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val respuesta = NoraApiService.getApiSession(host).deleteComando("$token",categoria.id!!,comando)
+            val respuesta =
+                NoraApiService.getApiSession(host).deleteComando(token, categoria.id!!, comando)
             if (!respuesta.isSuccessful) {
                 val responseError = ResponseError.parseResponseErrorBody(respuesta.errorBody()!!)
                 activity!!.runOnUiThread {
@@ -78,7 +82,7 @@ class RV_Comandos_Adapter(var categoria: CategoriaDeSonido, var activity: Fragme
             }
 
             activity!!.runOnUiThread {
-                val intent = Intent(activity, CategoriaSonido::class.java).apply {
+                val intent = Intent(activity, CategoriaDeSonidoActivity::class.java).apply {
                     putExtra("IDCategoria", categoria.id)
                 }
                 ContextCompat.startActivity(activity!!, intent, Bundle.EMPTY)

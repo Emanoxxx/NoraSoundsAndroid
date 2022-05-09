@@ -14,14 +14,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class Registro_Usuario : AppCompatActivity() {
-    lateinit var etNombre: EditText
-    lateinit var etUsername: EditText
-    lateinit var etEmail: EditText
-    lateinit var etPassword: EditText
-    lateinit var etPasswordConfirm: EditText
+class RegistroUsuario : AppCompatActivity() {
+    private lateinit var etNombre: EditText
+    private lateinit var etUsername: EditText
+    private lateinit var etEmail: EditText
+    private lateinit var etPassword: EditText
+    private lateinit var etPasswordConfirm: EditText
     lateinit var host: String
-    lateinit var noraApi: NoraApiService
+    private lateinit var noraApi: NoraApiService
 
     override fun onStart() {
         super.onStart()
@@ -38,13 +38,13 @@ class Registro_Usuario : AppCompatActivity() {
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
 
-        var btnRegistrar: Button = findViewById(R.id.registro_button);
+        val btnRegistrar: Button = findViewById(R.id.registro_button)
         btnRegistrar.setOnClickListener {
             registrar()
         }
-        var regresar: Button = findViewById(R.id.volver_Login);
+        val regresar: Button = findViewById(R.id.volver_Login)
         regresar.setOnClickListener {
-            onBackPressed();
+            onBackPressed()
         }
         etNombre = findViewById(R.id.et_nombre)
         etEmail = findViewById(R.id.et_email)
@@ -53,7 +53,7 @@ class Registro_Usuario : AppCompatActivity() {
         etPasswordConfirm = findViewById(R.id.et_password_confirm)
     }
 
-    fun registrar() {
+    private fun registrar() {
         etNombre.error = null
         etUsername.error = null
         etEmail.error = null
@@ -91,16 +91,16 @@ class Registro_Usuario : AppCompatActivity() {
             return
         }
 
-        val usuario: Usuario = Usuario(username, password, nombre, email)
+        val usuario = Usuario(username, password, nombre, email)
 
         CoroutineScope(Dispatchers.IO).launch {
             val respuesta = noraApi.registrarUsuario(usuario)
             if (!respuesta.isSuccessful) {
                 val responseError = ResponseError.parseResponseErrorBody(respuesta.errorBody()!!)
                 runOnUiThread {
-                    if(responseError.code == "P2002") {
+                    if (responseError.code == "P2002") {
                         Toast.makeText(
-                            this@Registro_Usuario,
+                            this@RegistroUsuario,
                             "El usuario o correo ya se encuentran registrados",
                             Toast.LENGTH_SHORT
                         ).show()
@@ -111,14 +111,14 @@ class Registro_Usuario : AppCompatActivity() {
                 }
                 return@launch
             }
-            var nuevoUsuario = respuesta.body()
+
             runOnUiThread {
                 Toast.makeText(
-                    this@Registro_Usuario,
+                    this@RegistroUsuario,
                     "Gracias por registrarte ${usuario.nombre}, tu solicitud ha sido enviada y un administrador pronto activará tu cuenta.",
                     Toast.LENGTH_SHORT
                 ).show()
-                startActivity(Intent(this@Registro_Usuario, MainActivity::class.java))
+                startActivity(Intent(this@RegistroUsuario, MainActivity::class.java))
             }
         }
 

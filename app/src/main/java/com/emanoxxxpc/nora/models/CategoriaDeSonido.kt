@@ -1,18 +1,9 @@
 package com.emanoxxxpc.nora.models
 
-import android.app.Activity
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.widget.Toast
-import com.emanoxxxpc.nora.RV_Sonido_Adapter
-import com.emanoxxxpc.nora.api.NoraApiService
-import com.emanoxxxpc.nora.api.ResponseError
 import com.google.gson.Gson
 import com.google.gson.JsonParser
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
 
 data class CategoriaDeSonido(
     val nombre: String,

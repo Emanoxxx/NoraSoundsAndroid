@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CategoriaSonido">
+    tools:context=".CategoriaDeSonidoActivity">
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -18,7 +18,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Catalogo_Categorias">
+        tools:context=".CatalogoCategoriasActivity">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_sonidos"

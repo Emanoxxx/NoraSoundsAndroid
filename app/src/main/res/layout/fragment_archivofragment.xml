@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:elevation="10dp"
-    tools:context=".CategoriaSonido">
+    tools:context=".CategoriaDeSonidoActivity">
 
 
     <androidx.recyclerview.widget.RecyclerView

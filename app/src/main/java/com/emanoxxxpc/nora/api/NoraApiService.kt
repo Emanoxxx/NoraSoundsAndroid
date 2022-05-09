@@ -2,14 +2,17 @@ package com.emanoxxxpc.nora.api
 
 import com.emanoxxxpc.nora.models.CategoriaDeSonido
 import com.emanoxxxpc.nora.models.Comando
+import com.emanoxxxpc.nora.models.Mensaje
 import com.emanoxxxpc.nora.models.Usuario
-import com.google.gson.JsonArray
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 interface NoraApiService {
+    @GET("/")
+    suspend fun revisarDisponibilidad(): Response<Mensaje>
+
     @POST("login/")
     suspend fun login(@Body usuario: Usuario): Response<Usuario>
 
