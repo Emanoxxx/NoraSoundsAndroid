@@ -30,16 +30,19 @@ class SetHostActivity : AppCompatActivity() {
         val preferencias = getSharedPreferences("host", MODE_PRIVATE)
         val host = preferencias.getString("Host", null)
         val etHost = findViewById<EditText>(R.id.et_host)
+        val btnEstablecer = findViewById<Button>(R.id.establecer_button)
         findViewById<Button>(R.id.volver_Host).setOnClickListener {
             onBackPressed()
         }
-        findViewById<Button>(R.id.establecer_button).setOnClickListener {
+        btnEstablecer.setOnClickListener {
             val hostname = etHost.text.toString()
             Toast.makeText(
                 this@SetHostActivity,
                 "Revisando disponibilidad del servicio...",
                 Toast.LENGTH_SHORT
             ).show()
+            etHost.isEnabled = false
+            btnEstablecer.isEnabled = false
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     noraApi = NoraApiService.getApiSession(hostname)
@@ -74,6 +77,8 @@ class SetHostActivity : AppCompatActivity() {
                             "Parece que hay un problema con el host que ingresaste",
                             Toast.LENGTH_LONG
                         ).show()
+                        etHost.isEnabled = true
+                        btnEstablecer.isEnabled = true
                     }
                 }
 

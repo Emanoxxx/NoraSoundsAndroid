@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.emanoxxxpc.nora.models.CategoriaDeSonido
+import com.emanoxxxpc.nora.utils.Player
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class RVCategoriaDeSonidoAdapter(
@@ -36,7 +37,7 @@ class RVCategoriaDeSonidoAdapter(
 
 
             playbutton.setOnClickListener {
-                if (!CategoriaDeSonido.playSound(
+                if (!Player.playSound(
                         itemCategoria!!.archivos!!,
                         itemCategoria!!.id!!,
                         host

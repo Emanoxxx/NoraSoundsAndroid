@@ -11,35 +11,5 @@ data class CategoriaDeSonido(
     val archivos: MutableList<String>? = null,
     val id: String? = null,
 
-    ){
-    companion object {
-        fun fromJSON(jsonString: String): CategoriaDeSonido {
-
-            val gson = Gson()
-            val parser = JsonParser()
-
-            val mJson = parser.parse(jsonString)
-            val categoriaDeSonido = gson.fromJson(mJson, CategoriaDeSonido::class.java)
-
-            return categoriaDeSonido;
-        }
-        fun playSound(archivos: MutableList<String>,id: String,host:String):Boolean{
-            if (archivos!!.size==0){
-                return false
-            }
-
-            var archivo= archivos!![(0 until archivos!!.size).random()]
-            val url = "http://${host}/${id}/${archivo}"
-            val mediaPlayer: MediaPlayer? = MediaPlayer().apply {
-                setAudioStreamType(AudioManager.STREAM_MUSIC)
-                setDataSource(url)
-                prepare() // might take long! (for buffering, etc)
-                start()
-                }
-            return true
-        }
-
-
-    }
-}
+    )
 

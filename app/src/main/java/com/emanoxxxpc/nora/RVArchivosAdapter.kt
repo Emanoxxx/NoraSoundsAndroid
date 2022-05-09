@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.emanoxxxpc.nora.api.NoraApiService
 import com.emanoxxxpc.nora.api.ResponseError
 import com.emanoxxxpc.nora.models.CategoriaDeSonido
+import com.emanoxxxpc.nora.utils.Player
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +50,7 @@ class RVArchivosAdapter(
         val archivo: MutableList<String> = mutableListOf()
         archivo.add(categoria.archivos!![position])
         holder.playbutton.setOnClickListener {
-            CategoriaDeSonido.playSound(archivo, categoria.id!!, host)
+            Player.playSound(archivo, categoria.id!!, host)
         }
         holder.deleteButton.setOnClickListener {
             val aceptarDialog: AlertDialog = AlertDialog.Builder(activity).apply {
