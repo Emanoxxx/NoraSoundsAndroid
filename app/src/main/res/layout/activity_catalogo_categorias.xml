@@ -54,6 +54,7 @@
         app:backgroundTint="@color/md_theme_light_inversePrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_action_add" />
+        app:srcCompat="@drawable/ic_action_add"
+        android:contentDescription="@string/fab_add_categoria_descripcion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

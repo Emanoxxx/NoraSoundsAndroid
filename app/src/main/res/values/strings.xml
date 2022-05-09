@@ -39,4 +39,5 @@
     <string name="add">Agregar</string>
     <string name="add_Comando">Nuevo comando</string>
     <string name="add_categoria_de_sonido_hint">Nombre</string>
+    <string name="fab_add_categoria_descripcion">Agregar</string>
 </resources>
