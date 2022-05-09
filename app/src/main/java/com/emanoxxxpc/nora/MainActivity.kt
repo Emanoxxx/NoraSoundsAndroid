@@ -50,7 +50,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        host = Host.verifyHost(getSharedPreferences("host", MODE_PRIVATE), this)!!
+        val result = Host.verifyHost(getSharedPreferences("host", MODE_PRIVATE), this)
+        if(result == null) {
+            startActivity(Intent(this, SetHostActivity::class.java))
+            finish()
+        }
+        host = result!!
         noraApi = NoraApiService.getApiSession(host)
         val preferencias = getSharedPreferences("datos", MODE_PRIVATE)
         val usuario = preferencias.getString("User", null)
