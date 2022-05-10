@@ -10,9 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 interface NoraApiService {
-    @GET("/")
-    suspend fun revisarDisponibilidad(): Response<Mensaje>
-
     @POST("login/")
     suspend fun login(@Body usuario: Usuario): Response<Usuario>
 
@@ -24,6 +21,12 @@ interface NoraApiService {
 
     @POST("CategoriasDeSonido/{id}/Comando/")
     suspend fun addComando(@Header("Authorization") token: String,@Path("id") id: String, @Body comando: Comando): Response<CategoriaDeSonido>
+
+    @PUT("CategoriasDeSonido/{id}/Comando/{comandoActual}")
+    suspend fun editarComando(@Header("Authorization") token: String, @Path("id") id: String, @Path("comandoActual") comandoActual: String, @Body comando: Comando): Response<CategoriaDeSonido>
+
+    @GET("/")
+    suspend fun revisarDisponibilidad(): Response<Mensaje>
 
     @GET("CategoriasDeSonido/search/{query}")
     suspend fun search(@Header("Authorization") token: String, @Path("query") query: String): Response<MutableList<CategoriaDeSonido>>

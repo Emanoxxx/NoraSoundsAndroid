@@ -36,6 +36,21 @@
         card_view:backgroundTint="@color/md_theme_light_error"
         card_view:srcCompat="@drawable/ic_action_trash" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_editar_comando"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="14dp"
+        android:layout_toStartOf="@+id/borrar_button2"
+        android:clickable="true"
+        android:scaleX=".7"
+        android:scaleY="0.7"
+        card_view:srcCompat="@drawable/ic_baseline_edit_24" />
+
     <TextView
         android:id="@+id/cv_nombre"
         android:layout_width="wrap_content"

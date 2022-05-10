@@ -15,6 +15,7 @@ class ResponseError {
             val parser = JsonParser()
 
             val jsonString = errorBody.string()
+            println(jsonString)
             val mJson = parser.parse(jsonString)
             val error = gson.fromJson(mJson, ResponseError::class.java)
             return error;

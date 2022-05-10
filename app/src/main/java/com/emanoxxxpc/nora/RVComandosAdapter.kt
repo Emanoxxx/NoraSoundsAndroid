@@ -1,10 +1,12 @@
 package com.emanoxxxpc.nora
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -14,13 +16,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.emanoxxxpc.nora.api.NoraApiService
 import com.emanoxxxpc.nora.api.ResponseError
 import com.emanoxxxpc.nora.models.CategoriaDeSonido
+import com.emanoxxxpc.nora.models.Comando
+import com.emanoxxxpc.nora.utils.DialogoAlerta
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class RVComandosAdapter(
-    private var categoria: CategoriaDeSonido, private var activity: FragmentActivity?, var host: String,
+    private var categoria: CategoriaDeSonido,
+    private var activity: FragmentActivity?,
+    var host: String,
     var token: String
 ) :
     RecyclerView.Adapter<RVComandosAdapter.ViewHolder>() {
@@ -28,6 +34,7 @@ class RVComandosAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val itemNombre: TextView = itemView.findViewById(R.id.cv_nombre)
         val deleteButton: FloatingActionButton = itemView.findViewById(R.id.borrar_button2)
+        val btnEditarComando: FloatingActionButton = itemView.findViewById(R.id.btn_editar_comando)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -56,6 +63,55 @@ class RVComandosAdapter(
             aceptarDialog.setMessage("¿Seguro que desea borrar ${categoria.comandos!![position]}?")
             aceptarDialog.show()
 
+        }
+
+        holder.btnEditarComando.setOnClickListener {
+            val activityEditar =
+                LayoutInflater.from(activity!!).inflate(R.layout.fragment_editar_comando, null)
+            val editarDialog = DialogoAlerta.nuevaAlertaConVista(
+                activity!!,
+                "Editar comando",
+                "Ingrese el nuevo comando.",
+                activityEditar
+            )
+            val etNuevoComando: EditText = editarDialog.findViewById(R.id.et_nuevo_comando)!!
+            editarDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val actividad: Activity = activity!!
+                etNuevoComando.error = null
+                val nuevoComando = etNuevoComando.text.toString()
+                if (nuevoComando == "") {
+                    etNuevoComando.error == "Ingrese el comando."
+                    return@setOnClickListener
+                }
+                CoroutineScope(Dispatchers.IO).launch {
+                    val respuesta = NoraApiService.getApiSession(host).editarComando(
+                        token,
+                        categoria.id!!,
+                        categoria.comandos!![position],
+                        Comando(nuevoComando)
+                    )
+                    if (!respuesta.isSuccessful) {
+                        val responseError = ResponseError.parseResponseErrorBody(respuesta.errorBody()!!)
+                        if(responseError.code == "P2002") {
+                            actividad.runOnUiThread {
+                                Toast.makeText(actividad, responseError.error, Toast.LENGTH_SHORT).show()
+                                etNuevoComando.error = "Comando ya registrado"
+                            }
+                            return@launch
+                        }
+                        actividad.runOnUiThread {
+                            Toast.makeText(actividad, "Algo salió mal", Toast.LENGTH_SHORT).show()
+                        }
+                        return@launch
+                    }
+
+                    actividad.runOnUiThread {
+                        holder.itemNombre.text = nuevoComando
+                        Toast.makeText(actividad, "$nuevoComando actualizado.", Toast.LENGTH_SHORT).show()
+                    }
+                    editarDialog.dismiss()
+                }
+            }
         }
     }
 
