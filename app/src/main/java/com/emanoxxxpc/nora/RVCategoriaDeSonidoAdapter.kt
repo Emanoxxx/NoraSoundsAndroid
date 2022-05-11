@@ -72,6 +72,8 @@ class RVCategoriaDeSonidoAdapter(
         holder.itemCategoria = sonidos[position]
         if (sonidos[position].archivos != null) {
             holder.playbutton.isEnabled = sonidos[position].archivos!!.isNotEmpty()
+        } else {
+            holder.playbutton.isEnabled = false
         }
 
     }
