@@ -46,8 +46,8 @@ class RVComandosAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemNombre.text = categoria.comandos!![position]
+        val comando = categoria.comandos!![position]
         holder.deleteButton.setOnClickListener {
-            val comando = categoria.comandos!![position]
             val eliminarDialog = DialogoAlerta.nuevaAlertaSimple(
                 activity!!,
                 "Eliminar comando",
@@ -66,6 +66,11 @@ class RVComandosAdapter(
                     val categoriaDeSonido = respuesta.body()!!
                     activity!!.runOnUiThread {
                         Toast.makeText(activity!!, "${comando} eliminado.", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(activity, CategoriaDeSonidoActivity::class.java).apply {
+                            putExtra("IDCategoria", categoriaDeSonido.id)
+                        }
+                        ContextCompat.startActivity(activity!!, intent, Bundle.EMPTY)
+                        activity!!.finish()
                         eliminarDialog.dismiss()
                     }
                 }
@@ -83,14 +88,21 @@ class RVComandosAdapter(
                 activityEditar
             )
             val etNuevoComando: EditText = editarDialog.findViewById(R.id.et_nuevo_comando)!!
+            etNuevoComando.setText(comando)
             editarDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val actividad: Activity = activity!!
                 etNuevoComando.error = null
                 val nuevoComando = etNuevoComando.text.toString()
                 if (nuevoComando == "") {
-                    etNuevoComando.error == "Ingrese el comando."
+                    etNuevoComando.error = "Ingrese el comando."
                     return@setOnClickListener
                 }
+
+                if (nuevoComando == comando) {
+                    etNuevoComando.error = "No ha cambiado el comando."
+                    return@setOnClickListener
+                }
+
                 CoroutineScope(Dispatchers.IO).launch {
                     val respuesta = NoraApiService.getApiSession(host).editarComando(
                         token,

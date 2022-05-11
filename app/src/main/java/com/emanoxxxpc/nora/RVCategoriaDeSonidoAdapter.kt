@@ -37,15 +37,24 @@ class RVCategoriaDeSonidoAdapter(
 
 
             playbutton.setOnClickListener {
-                if (!Player.playSound(
-                        itemCategoria!!.archivos!!,
-                        itemCategoria!!.id!!,
-                        host
-                    )
-                ) {
+                if (itemCategoria!!.archivos != null) {
+                    if (!Player.playSound(
+                            itemCategoria!!.archivos!!,
+                            itemCategoria!!.id!!,
+                            host
+                        )
+                    ) {
+                        Toast.makeText(
+                            activity,
+                            "No encontre archivo a reproducir",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                        return@setOnClickListener
+                    }
+                } else {
                     Toast.makeText(activity, "No encontre archivo a reproducir", Toast.LENGTH_SHORT)
                         .show()
-                    return@setOnClickListener
                 }
             }
 
