@@ -17,6 +17,7 @@ import com.emanoxxxpc.nora.api.NoraApiService
 import com.emanoxxxpc.nora.api.ResponseError
 import com.emanoxxxpc.nora.models.CategoriaDeSonido
 import com.emanoxxxpc.nora.models.Comando
+import com.emanoxxxpc.nora.utils.DialogoAlerta
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,64 +51,63 @@ class ComandoFragment(
     @SuppressLint("InflateParams")
     override fun onStart() {
         super.onStart()
-        val inflater = requireActivity().layoutInflater
-        val alerta: View = inflater.inflate(R.layout.dialog_add, null)
-        alerta.findViewById<EditText>(R.id.et_comando).setHint(R.string.add_Comando)
         addButton = requireActivity().findViewById(R.id.fab_add_Comando)
         addButton.setOnClickListener {
-            val aceptarDialog: AlertDialog = AlertDialog.Builder(requireActivity()).apply {
-                setView(alerta)
-
-                setPositiveButton(
-                    R.string.add,
-                ) { _, _ ->
-                    addComando(alerta.findViewById<EditText>(R.id.et_comando).text.toString())
-                }
-                setNegativeButton(
-                    R.string.cancel,
-                ) { _, _ ->
-                }
-            }.create()
-            aceptarDialog.setCancelable(true)
-            aceptarDialog.setTitle("Agregar Comando")
-            aceptarDialog.show()
-
-        }
-    }
-
-    private fun addComando(comando: String) {
-        if (comando == "") {
-            Toast.makeText(activity, "No valido, campo vacio.", Toast.LENGTH_SHORT).show()
-            return
-        }
-        CoroutineScope(Dispatchers.IO).launch {
-            val respuesta = NoraApiService.getApiSession(host).addComando(
-                token, categoria.id!!,
-                Comando(comando)
+            val alerta: View = requireActivity().layoutInflater.inflate(R.layout.dialog_add, null)
+            alerta.findViewById<EditText>(R.id.et_comando).setHint(R.string.add_Comando)
+            val agregarComandoDialog = DialogoAlerta.nuevaAlertaConVista(
+                requireActivity(), "Agregar comando", "Ingrese el nuevo comando", alerta
             )
-            if (!respuesta.isSuccessful) {
-                val responseError = ResponseError.parseResponseErrorBody(respuesta.errorBody()!!)
-                requireActivity().runOnUiThread {
-                    Toast.makeText(
-                        activity,
-                        responseError.error,
-                        Toast.LENGTH_SHORT
+            val btnAceptar = agregarComandoDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            val etComando = agregarComandoDialog.findViewById<EditText>(R.id.et_comando)!!
+
+            btnAceptar.setOnClickListener {
+                etComando.error = null
+                val comando = etComando.text.toString()
+
+                if (comando == "") {
+                    etComando.error = "Ingrese el comando"
+                    return@setOnClickListener
+                }
+                CoroutineScope(Dispatchers.IO).launch {
+                    val respuesta = NoraApiService.getApiSession(host).addComando(
+                        token, categoria.id!!,
+                        Comando(comando)
                     )
-                        .show()
+                    if (!respuesta.isSuccessful) {
+                        val responseError =
+                            ResponseError.parseResponseErrorBody(respuesta.errorBody()!!)
+                        if (responseError.code == "P2002") {
+                            requireActivity().runOnUiThread {
+                                Toast.makeText(
+                                    activity,
+                                    responseError.error,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                etComando.error = "Comando ya registrado"
+                            }
+                            return@launch
+                        }
+
+                        requireActivity().runOnUiThread {
+                            Toast.makeText(
+                                activity,
+                                "Algo salió mal",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        return@launch
+                    }
+                    val categoriaDeSonido = respuesta.body()!!
+                    requireActivity().runOnUiThread {
+
+                        recyclerView.adapter = RVComandosAdapter(categoriaDeSonido, activity, host, token)
+                        agregarComandoDialog.dismiss()
+                        agregarComandoDialog.hide()
+                    }
                 }
 
-                return@launch
             }
-
-            requireActivity().runOnUiThread {
-                val intent = Intent(activity, CategoriaDeSonidoActivity::class.java).apply {
-                    putExtra("IDCategoria", categoria.id)
-                }
-                ContextCompat.startActivity(requireActivity(), intent, Bundle.EMPTY)
-                requireActivity().finish()
-            }
-
-
         }
     }
 

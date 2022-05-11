@@ -47,21 +47,29 @@ class RVComandosAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemNombre.text = categoria.comandos!![position]
         holder.deleteButton.setOnClickListener {
-            val aceptarDialog: AlertDialog = AlertDialog.Builder(activity!!).apply {
-                setPositiveButton(
-                    R.string.accept,
-                ) { _, _ ->
-                    deleteComando(categoria.comandos!![position])
+            val comando = categoria.comandos!![position]
+            val eliminarDialog = DialogoAlerta.nuevaAlertaSimple(
+                activity!!,
+                "Eliminar comando",
+                "¿Seguro que desea elimiar el comando $comando?"
+            )
+            eliminarDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val respuesta = NoraApiService.getApiSession(host).deleteComando(token, categoria.id!!, comando)
+                    if (!respuesta.isSuccessful) {
+                        val responseError = ResponseError.parseResponseErrorBody(respuesta.errorBody()!!)
+                        activity!!.runOnUiThread {
+                            Toast.makeText(activity!!, "Algo salió mal", Toast.LENGTH_SHORT).show()
+                        }
+                        return@launch
+                    }
+                    val categoriaDeSonido = respuesta.body()!!
+                    activity!!.runOnUiThread {
+                        Toast.makeText(activity!!, "${comando} eliminado.", Toast.LENGTH_SHORT).show()
+                        eliminarDialog.dismiss()
+                    }
                 }
-                setNegativeButton(
-                    R.string.cancel,
-                ) { _, _ ->
-                }
-            }.create()
-            aceptarDialog.setCancelable(true)
-            aceptarDialog.setTitle("Borrar Archivo ")
-            aceptarDialog.setMessage("¿Seguro que desea borrar ${categoria.comandos!![position]}?")
-            aceptarDialog.show()
+            }
 
         }
 
