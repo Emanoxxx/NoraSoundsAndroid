@@ -41,7 +41,7 @@ class CatalogoCategoriasActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_catalogo_categorias)
         setSupportActionBar(findViewById(R.id.toolbar))
-        rvSonidos = findViewById(R.id.rv_sonidos)
+        rvSonidos = findViewById(R.id.rv_solicitudes)
         rvSonidos.layoutManager = LinearLayoutManager(this)
         fabAddCategoriaDeSonidoDialog = findViewById(R.id.fab_add_categoria_de_sonido)
 
@@ -74,6 +74,8 @@ class CatalogoCategoriasActivity : AppCompatActivity() {
         // Handle item selection
         return when (item.itemId) {
             R.id.buttonSolicitudes -> {
+                val intent = Intent(this, SolicitudesActivity::class.java)
+                startActivity(intent)
                 true
             }
             R.id.buttonCerrarSesion -> {

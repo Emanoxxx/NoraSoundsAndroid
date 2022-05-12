@@ -41,4 +41,6 @@
     <string name="add_categoria_de_sonido_hint">Nombre</string>
     <string name="fab_add_categoria_descripcion">Agregar</string>
     <string name="nuevo_comando_editado_hint">Nuevo comando</string>
+    <string name="activo">Activo</string>
+    <string name="admin">Admin</string>
 </resources>

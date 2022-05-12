@@ -21,7 +21,7 @@
         tools:context=".CatalogoCategoriasActivity">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_sonidos"
+            android:id="@+id/rv_solicitudes"
             android:layout_width="409dp"
             android:layout_height="673dp"
             android:layout_alignParentTop="true"

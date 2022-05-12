@@ -13,9 +13,14 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".SolicitudesActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.emanoxxxpc.nora.MainActivity" />
+        </activity>
         <activity
-            android:name=".Archivos"
+            android:name=".ArchivoFragment"
             android:exported="false" />
         <activity
             android:name=".SetHostActivity"

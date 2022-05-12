@@ -23,41 +23,57 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_nombre"
         android:layout_width="252dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="130dp"
-        android:layout_marginBottom="47dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="123dp"
+        android:layout_marginBottom="46dp"
         android:textColor="@android:color/black"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintBottom_toTopOf="@+id/tv_email"
         tools:layout_editor_absoluteX="30dp"
         tools:text="@tools:sample/full_names" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_email"
         android:layout_width="285dp"
         android:layout_height="20dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="98dp"
-        android:layout_marginBottom="19dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="89dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteY="37dp"
         tools:text="@tools:sample/lorem[4:10]" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/isActive_Switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="21dp"
-        android:layout_marginBottom="39dp"
-        android:text="Switch"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="45dp"
+        android:text="@string/activo"
         app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="10dp" />
+
+    <Switch
+        android:id="@+id/isAdmin_Switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="21dp"
+        android:text="@string/admin"
+        card_view:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteY="10dp" />
   </RelativeLayout>
 </androidx.cardview.widget.CardView>

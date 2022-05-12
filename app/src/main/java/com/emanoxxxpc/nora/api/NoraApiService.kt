@@ -20,6 +20,21 @@ interface NoraApiService {
     @POST("Usuarios/registrar")
     suspend fun registrarUsuario(@Body usuario: Usuario): Response<Usuario>
 
+    @PUT("Usuarios/{username}/activar/")
+    suspend fun activarUsuario(@Header("Authorization") token: String,@Path("username") username: String): Response<Usuario>
+
+    @PUT("Usuarios/{username}/desactivar/")
+    suspend fun desactivarUsuario(@Header("Authorization") token: String,@Path("username") username: String): Response<Usuario>
+
+    @PUT("Usuarios/{username}/toAdmin/")
+    suspend fun toadmin(@Header("Authorization") token: String,@Path("username") username: String): Response<Usuario>
+
+    @PUT("Usuarios/{username}/toUser/")
+    suspend fun toUser(@Header("Authorization") token: String,@Path("username") username: String): Response<Usuario>
+
+    @GET("Usuarios/")
+    suspend fun getUsuarios(@Header("Authorization") token: String): Response<MutableList<Usuario>>
+
     @POST("CategoriasDeSonido/")
     suspend fun createCategoriaDeSonido(@Header("Authorization") token: String, @Body categoriaDeSonido: CategoriaDeSonido): Response<CategoriaDeSonido>
 
