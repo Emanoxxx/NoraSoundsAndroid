@@ -15,6 +15,7 @@ import com.emanoxxxpc.nora.api.ResponseError
 import com.emanoxxxpc.nora.models.CategoriaDeSonido
 import com.emanoxxxpc.nora.utils.Host
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -55,6 +56,7 @@ class CategoriaDeSonidoActivity : AppCompatActivity() {
         host = Host.verifyHost(getSharedPreferences("host", MODE_PRIVATE), this)!!
 
         noraApi = NoraApiService.getApiSession(host)
+
         CoroutineScope(Dispatchers.Main).launch {
             getCategoria(id!!, findViewById(R.id.toolbar))
         }
@@ -118,6 +120,20 @@ class CategoriaDeSonidoActivity : AppCompatActivity() {
             ViewPagerAdapter(this@CategoriaDeSonidoActivity, categoriaDeSonido, host, authorization)
         val pager = findViewById<ViewPager2>(R.id.pager)
         pager.adapter = adapter
+
+        val tabLayoutMediator=TabLayoutMediator(tabs,pager,TabLayoutMediator.TabConfigurationStrategy{tab, position ->
+            when (position){
+                0->{
+                    tab.text="Comandos"
+                    tab.setIcon(R.drawable.ic_action_sort_1)
+                }
+                1->{
+                    tab.text="Archivos"
+                    tab.setIcon(R.drawable.ic_headset)
+                }
+            }
+        })
+        tabLayoutMediator.attach()
     }
 
     private fun deleteCategoria() {

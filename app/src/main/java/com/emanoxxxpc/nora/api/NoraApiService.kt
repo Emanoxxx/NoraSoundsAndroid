@@ -4,10 +4,14 @@ import com.emanoxxxpc.nora.models.CategoriaDeSonido
 import com.emanoxxxpc.nora.models.Comando
 import com.emanoxxxpc.nora.models.Mensaje
 import com.emanoxxxpc.nora.models.Usuario
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import java.util.concurrent.TimeUnit
+
 
 interface NoraApiService {
     @POST("login/")
@@ -28,6 +32,9 @@ interface NoraApiService {
     @GET("/")
     suspend fun revisarDisponibilidad(): Response<Mensaje>
 
+    @Multipart @POST("CategoriasDeSonido/{id}/Archivo/")
+    suspend fun addArchivo(@Header("Authorization") token: String,@Path("id") id: String, @Part audio: MultipartBody.Part): Response<CategoriaDeSonido>
+
     @GET("CategoriasDeSonido/search/{query}")
     suspend fun search(@Header("Authorization") token: String, @Path("query") query: String): Response<MutableList<CategoriaDeSonido>>
 
@@ -45,9 +52,14 @@ interface NoraApiService {
 
     companion object {
         fun getApiSession(host: String): NoraApiService {
+            val okHttpClient = OkHttpClient.Builder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .build()
             return Retrofit.Builder()
                 .baseUrl("http://$host/")
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
                 .build()
                 .create(NoraApiService::class.java)
         }

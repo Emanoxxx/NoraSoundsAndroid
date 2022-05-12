@@ -51,6 +51,8 @@ class ComandoFragment(
     @SuppressLint("InflateParams")
     override fun onStart() {
         super.onStart()
+        try{
+
         addButton = requireActivity().findViewById(R.id.fab_add_Comando)
         addButton.setOnClickListener {
             val alerta: View = requireActivity().layoutInflater.inflate(R.layout.dialog_add, null)
@@ -109,6 +111,9 @@ class ComandoFragment(
 
             }
         }
+    }catch (excepcion:Exception){
+
+    }
     }
 
 }
